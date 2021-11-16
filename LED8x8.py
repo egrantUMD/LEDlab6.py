@@ -1,6 +1,6 @@
 import RPi.GPIO as GPIO
 from time import sleep
-from shifter import Shifter
+from shifterr import Shifter
 import mulitprocessing
 
 GPIO.setmode(GPIO.BCM)
@@ -15,11 +15,11 @@ class LED8x8:
 
   row = [0b10000000, 0b01000000, 0b00100000, 0b00010000, 0b00001000, 0b00000100, 0b00000010, 0b00000001]
 
-  dataPin, latchPin, clockPin = 16, 12, 6
+  dataPin, latchPin, clockPin = 23, 24, 25
   
  
   def __init__(self):
-    self.shift = Shifter(self.datapin, self.latchpin, self.clockpin)
+    self.shift = Shifter(self.dataPin, self.latchPin, self.clockPin)
   
   def display(self):
     try:
@@ -27,7 +27,10 @@ class LED8x8:
         for a in range(8):
           self.shift.shiftByte(~(self.pattern[a] & 0b11111111))
           self.shift.shiftByte(self.row[a])
-          sleep(0.001)
+          self.shift.ping(self.latchPin)
+        sleep(0.001)
     except KeyboardInterrupt:
       pass
  
+a = LED8x8()
+a.display

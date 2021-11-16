@@ -30,8 +30,3 @@ class LED8x8:
           sleep(0.001)
     except KeyboardInterrupt:
       pass
-
-p = multiprocessing.Process( target=LED8x8.display)
-
-p.daemon = True # Force process termination when main code ends
-p.start() 
